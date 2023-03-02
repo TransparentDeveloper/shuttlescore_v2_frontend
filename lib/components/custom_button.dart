@@ -39,15 +39,13 @@ class CustomButton extends StatelessWidget {
               flex: 2,
               fit: FlexFit.tight,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
                   Text(
                     title,
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w900),
+                        fontSize: 15, fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(
                     height: 5,
@@ -55,7 +53,7 @@ class CustomButton extends StatelessWidget {
                   Text(
                     detail,
                     style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w400),
+                        fontSize: 11, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
@@ -69,7 +67,7 @@ class CustomButton extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              width: 10,
+              width: 5,
             ),
           ],
         ),

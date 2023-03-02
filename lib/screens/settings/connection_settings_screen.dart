@@ -15,13 +15,18 @@ class ConnectionSettingsScreen extends StatefulWidget {
 class _ConnectionSettingsScreenState extends State<ConnectionSettingsScreen> {
   String? _data;
 
+  String _createData() {
+    String timeStamp =
+        DateTime.now().millisecondsSinceEpoch.toString().substring(4, 13);
+    String randomString = const Uuid().v4().substring(0, 8);
+
+    return (timeStamp + randomString);
+  }
+
   @override
   void initState() {
     super.initState();
-    int timeStamp = DateTime.now().millisecondsSinceEpoch;
-    String randomString = const Uuid().toString().substring(0, 8);
-    _data = timeStamp.toString() + randomString;
-    print("Test${_data!}");
+    _data = _createData();
   }
 
   @override
@@ -62,7 +67,7 @@ class _ConnectionSettingsScreenState extends State<ConnectionSettingsScreen> {
                       ],
                     ),
                     QrImage(
-                      data: "1234",
+                      data: _data!,
                       backgroundColor: Theme.of(context).primaryColor,
                       size: 145,
                     ),

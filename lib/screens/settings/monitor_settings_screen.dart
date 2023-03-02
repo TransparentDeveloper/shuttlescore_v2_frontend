@@ -20,7 +20,7 @@ class MonitorSettingsScreen extends StatelessWidget {
                 children: [
                   CustomButton(
                     onTab: () => {},
-                    title: "단일 다바이스",
+                    title: "단일 디바이스",
                     detail: "모바일 장치가 하나입니다!",
                     svgIcon: SvgPicture.asset(
                       'assets/icons/router.svg',

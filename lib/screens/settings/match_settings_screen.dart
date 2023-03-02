@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shuttlescore_v2_frontend/commons/background.dart';
+import 'package:shuttlescore_v2_frontend/components/custom_button.dart';
 
-import '../commons/background.dart';
-import '../components/custom_button.dart';
-
-class MonitorSettingsScreen extends StatelessWidget {
-  const MonitorSettingsScreen({super.key});
+class MatchSettingsScreen extends StatelessWidget {
+  const MatchSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +19,8 @@ class MonitorSettingsScreen extends StatelessWidget {
                 children: [
                   CustomButton(
                     onTab: () => {},
-                    title: "단일 다바이스",
-                    detail: "모바일 장치가 하나입니다!",
+                    title: "단식모드",
+                    detail: "1:1 경기합니다~!",
                     svgIcon: SvgPicture.asset(
                       'assets/icons/router.svg',
                       width: 60,
@@ -30,8 +29,8 @@ class MonitorSettingsScreen extends StatelessWidget {
                   ),
                   CustomButton(
                     onTab: () => {},
-                    title: "원격 디바이스",
-                    detail: "모바일 장치가\n두 개 이상입니다!",
+                    title: "복식모드",
+                    detail: "2:2 경기합니다~!",
                     svgIcon: SvgPicture.asset(
                       'assets/icons/router.svg',
                       width: 60,

@@ -4,15 +4,14 @@ import 'package:uuid/uuid.dart';
 
 import '../../commons/background.dart';
 
-class ConnectionSettingsScreen extends StatefulWidget {
-  const ConnectionSettingsScreen({super.key});
+class CreateQrScreen extends StatefulWidget {
+  const CreateQrScreen({super.key});
 
   @override
-  State<ConnectionSettingsScreen> createState() =>
-      _ConnectionSettingsScreenState();
+  State<CreateQrScreen> createState() => _CreateQrScreenState();
 }
 
-class _ConnectionSettingsScreenState extends State<ConnectionSettingsScreen> {
+class _CreateQrScreenState extends State<CreateQrScreen> {
   String? _data;
 
   String _createData() {

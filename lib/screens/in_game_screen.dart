@@ -1,3 +1,5 @@
+// ignore_for_file: slash_for_doc_comments, duplicate_ignore
+
 import 'package:flutter/material.dart';
 
 import '../commons/background.dart';
@@ -27,14 +29,37 @@ class _InGameScreenState extends State<InGameScreen> {
 
   _init() {
     _scores = <int>[0, 0];
-    _setWon = <int>[widget.status.setA, widget.status.setB];
+    _setWon = <int>[widget.status.setWonA, widget.status.setWonB];
     _totalSet = widget.status.totalSet;
   }
 
+  /**
+   * Score UpCounting
+   */
   void _increaseScore(int idx) {
     _scores![idx] += 1;
     setState(() {});
   }
+
+  /**
+   * Score DownCounting
+   */
+  void _decreaseScore(int idx) {}
+
+  /**
+   * Court Change
+   */
+  void _interChangeCourt() {}
+
+  /**
+   * 경기 강제 종료
+   */
+  void _exitGame() {}
+
+  /**
+   * 서비스 위치 Tracking
+   */
+  void trackingServicePosition(int idx) {}
 
   @override
   Widget build(BuildContext context) {

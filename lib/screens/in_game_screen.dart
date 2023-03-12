@@ -14,6 +14,8 @@ class InGameScreen extends StatefulWidget {
   State<InGameScreen> createState() => _InGameScreenState();
 }
 
+typedef Callback = void Function(int val);
+
 class _InGameScreenState extends State<InGameScreen> {
   List<int>? _scores = List<int>.filled(2, 0); // 1팀 경기 score
   List<int> _setWon = List<int>.filled(2, 0); // 1팀이 이긴 set 수// 2팀이 이긴 set 수
@@ -37,7 +39,6 @@ class _InGameScreenState extends State<InGameScreen> {
    * Score UpCounting
    */
   void _increaseScore(int idx) {
-    print("idx: $idx");
     _scores![idx] += 1;
     setState(() {});
   }
@@ -58,7 +59,10 @@ class _InGameScreenState extends State<InGameScreen> {
   /**
    * 경기 강제 종료
    */
-  void _exitGame() {}
+  void _exitGame(BuildContext context) {
+    print("그만하기");
+    Navigator.popUntil(context, ModalRoute.withName("/"));
+  }
 
   /**
    * 서비스 위치 Tracking
@@ -72,21 +76,65 @@ class _InGameScreenState extends State<InGameScreen> {
         child: Stack(
           children: [
             const Background(),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => _increaseScore(0),
-                  child: Stack(
-                    children: [
-                      ScoreBox(score: _scores![0], idx: 0),
-                    ],
+            Align(
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => _increaseScore(0),
+                    child: ScoreBox(
+                      score: _scores![0],
+                      idx: 0,
+                      minus: (val) => _decreaseScore(val),
+                    ),
                   ),
+                  GestureDetector(
+                    onTap: () => _increaseScore(1),
+                    child: ScoreBox(
+                      score: _scores![1],
+                      idx: 1,
+                      minus: (val) => _decreaseScore(val),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text(
+                          '게임 초기화',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        content: const Text('아직 경기가 진행 중입니다.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => _exitGame(context),
+                            child: const Text('초기화'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('이어하기'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                  iconSize: 50.0,
                 ),
-                GestureDetector(
-                  onTap: () => _increaseScore(1),
-                  child: ScoreBox(score: _scores![1], idx: 1),
-                )
-              ],
+              ),
             ),
           ],
         ),
@@ -100,10 +148,13 @@ class ScoreBox extends StatelessWidget {
     Key? key,
     required this.score,
     this.idx,
+    required this.minus,
   }) : super(key: key);
 
   final int? score;
   final int? idx;
+  final Callback minus;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,7 +182,9 @@ class ScoreBox extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    minus(idx!);
+                  },
                   child: const Text(
                     "-1",
                     style: TextStyle(

@@ -28,7 +28,7 @@ class _InGameScreenState extends State<InGameScreen> {
   }
 
   _init() {
-    _scores = <int>[0, 0];
+    _scores = <int>[500, 100];
     _setWon = <int>[widget.status.setWonA, widget.status.setWonB];
     _totalSet = widget.status.totalSet;
   }
@@ -37,6 +37,7 @@ class _InGameScreenState extends State<InGameScreen> {
    * Score UpCounting
    */
   void _increaseScore(int idx) {
+    print("idx: $idx");
     _scores![idx] += 1;
     setState(() {});
   }
@@ -44,7 +45,10 @@ class _InGameScreenState extends State<InGameScreen> {
   /**
    * Score DownCounting
    */
-  void _decreaseScore(int idx) {}
+  void _decreaseScore(int idx) {
+    _scores![idx] -= 1;
+    setState(() {});
+  }
 
   /**
    * Court Change
@@ -68,20 +72,21 @@ class _InGameScreenState extends State<InGameScreen> {
         child: Stack(
           children: [
             const Background(),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () => _increaseScore(0),
-                    child: ScoreBox(score: _scores![0]),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () => _increaseScore(0),
+                  child: Stack(
+                    children: [
+                      ScoreBox(score: _scores![0], idx: 0),
+                    ],
                   ),
-                  GestureDetector(
-                    onTap: () => _increaseScore(1),
-                    child: ScoreBox(score: _scores![1]),
-                  )
-                ],
-              ),
+                ),
+                GestureDetector(
+                  onTap: () => _increaseScore(1),
+                  child: ScoreBox(score: _scores![1], idx: 1),
+                )
+              ],
             ),
           ],
         ),
@@ -101,15 +106,43 @@ class ScoreBox extends StatelessWidget {
   final int? idx;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: const Color(0x00000000),
       width: MediaQuery.of(context).size.width / 2,
-      child: Text(
-        "$score",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: MediaQuery.of(context).size.width / 5,
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).primaryColor,
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "$score",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width / 5,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: FloatingActionButton(
+                  onPressed: () => {},
+                  child: const Text(
+                    "-1",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

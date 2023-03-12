@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../commons/background.dart';
+import '../commons/cover_background.dart';
 import '../models/status.dart';
 
 class InGameScreen extends StatefulWidget {
@@ -60,7 +60,6 @@ class _InGameScreenState extends State<InGameScreen> {
    * 경기 강제 종료
    */
   void _exitGame(BuildContext context) {
-    print("그만하기");
     Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
@@ -71,74 +70,69 @@ class _InGameScreenState extends State<InGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            const Background(),
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => _increaseScore(0),
-                    child: ScoreBox(
-                      score: _scores![0],
-                      idx: 0,
-                      minus: (val) => _decreaseScore(val),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => _increaseScore(1),
-                    child: ScoreBox(
-                      score: _scores![1],
-                      idx: 1,
-                      minus: (val) => _decreaseScore(val),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text(
-                          '게임 초기화',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        content: const Text('아직 경기가 진행 중입니다.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => _exitGame(context),
-                            child: const Text('초기화'),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('이어하기'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                  ),
-                  iconSize: 50.0,
+    return CoverBackGround(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => _increaseScore(0),
+                child: ScoreBox(
+                  score: _scores![0],
+                  idx: 0,
+                  minus: (val) => _decreaseScore(val),
                 ),
               ),
-            ),
-          ],
+              GestureDetector(
+                onTap: () => _increaseScore(1),
+                child: ScoreBox(
+                  score: _scores![1],
+                  idx: 1,
+                  minus: (val) => _decreaseScore(val),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text(
+                      '게임 초기화',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    content: const Text('아직 경기가 진행 중입니다.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => _exitGame(context),
+                        child: const Text('초기화'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('이어하기'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+              iconSize: 25.0,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
